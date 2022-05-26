@@ -1,4 +1,9 @@
+import 'dart:io';
+
 import 'package:finz/constants/static_cosntants.dart';
+import 'package:finz/features/authentication/presentation/enter_pin_widget.dart';
+import 'package:finz/features/authentication/presentation/face_id_widget.dart';
+import 'package:finz/services/prefs_services.dart';
 import 'package:flutter/material.dart';
 
 class DeveiceSecurityWidget extends StatefulWidget {
@@ -11,6 +16,23 @@ class DeveiceSecurityWidget extends StatefulWidget {
 
 class _DeveiceSecurityWidgetState extends State<DeveiceSecurityWidget> {
   bool _deviceSecurityEnabled = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero).then((value) {
+      Prefs().getAuthEnableStatus().then((value) {
+        setState(() {
+          if (value == "true") {
+            _deviceSecurityEnabled = true;
+          } else {
+            _deviceSecurityEnabled = false;
+          }
+        });
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,12 +76,20 @@ class _DeveiceSecurityWidgetState extends State<DeveiceSecurityWidget> {
   }
 
   void _onChanged(bool value) {
-    setState(() {
-      _deviceSecurityEnabled = !_deviceSecurityEnabled;
+    Prefs()
+        .setAuthEnableStatus(_deviceSecurityEnabled ? "true" : "fale")
+        .then((value) {
+      setState(() {
+        _deviceSecurityEnabled = !_deviceSecurityEnabled;
+      });
     });
   }
 
   void _onBackPressed() {
-    Navigator.of(context).pop();
+    if (_deviceSecurityEnabled) {
+      Navigator.of(context).pushReplacementNamed(FaceIdWidget.routeName);
+    } else {
+      Navigator.of(context).pushReplacementNamed(PinLoginWidget.routeName);
+    }
   }
 }

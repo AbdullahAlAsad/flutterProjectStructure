@@ -71,11 +71,19 @@ class _AuthSettingsScreenState extends State<AuthSettingsScreen> {
   }
 
   _onPressedSkip() {
-    Navigator.of(context).pushNamed(PinLoginWidget.routeName);
+    Prefs().setAuthEnableStatus("false").then((value) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const PinLoginWidget(),
+            settings: const RouteSettings(name: PinLoginWidget.routeName)),
+        (Route<dynamic> route) => false,
+      );
+    });
   }
 
   _onPressedEnable() {
-    Prefs().setAuthEnableStatus(true).then((value) {
+    Prefs().setAuthEnableStatus("true").then((value) {
       Navigator.of(context).pushNamed(FaceIdWidget.routeName);
     });
   }

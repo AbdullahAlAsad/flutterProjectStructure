@@ -24,7 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
       initData().then((value) {
         var authService = getIt<AuthService>();
         authService.isAuthenabled().then((status) {
-          if (status) {
+          debugPrint('auth enabled ------- $status');
+          if (status == "true") {
             authService.checkBiometrics().then((hasBiometric) {
               if (hasBiometric) {
                 Navigator.pushAndRemoveUntil(
@@ -46,6 +47,15 @@ class _SplashScreenState extends State<SplashScreen> {
                 );
               }
             });
+          } else if (status == "false") {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const PinLoginWidget(),
+                  settings:
+                      const RouteSettings(name: PinLoginWidget.routeName)),
+              (Route<dynamic> route) => false,
+            );
           } else {
             Navigator.pushAndRemoveUntil(
               context,
@@ -71,8 +81,11 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Container(
         color: Colors.black,
         child: Center(
-          child: Image.asset(
-            ImagePaths.splashLogo,
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Image.asset(
+              ImagePaths.splashLogo,
+            ),
           ),
         ),
       ),

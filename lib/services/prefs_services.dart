@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Prefs {
@@ -8,7 +7,7 @@ class Prefs {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   static String _authToken = "";
   static String _uid = "";
-  static bool _authEnableStatus = false;
+  static String _authEnableStatus = "default";
 
   getToken() => _authToken;
   getUid() => _uid;
@@ -28,9 +27,10 @@ class Prefs {
     return _uid;
   }
 
-  Future<bool> getAuthEnableStatus() async {
+  Future<String> getAuthEnableStatus() async {
     final SharedPreferences prefs = await _prefs;
-    _authEnableStatus = prefs.getBool(_authEnableStatusStorageKey) ?? false;
+    _authEnableStatus =
+        prefs.getString(_authEnableStatusStorageKey) ?? "default";
 
     return _authEnableStatus;
   }
@@ -48,10 +48,10 @@ class Prefs {
     prefs.setString(_userIDStorageKey, uID);
   }
 
-  Future<void> setAuthEnableStatus(bool status) async {
+  Future<void> setAuthEnableStatus(String status) async {
     final SharedPreferences prefs = await _prefs;
     _authEnableStatus = status;
-    prefs.setBool(_authEnableStatusStorageKey, _authEnableStatus);
+    prefs.setString(_authEnableStatusStorageKey, _authEnableStatus);
   }
 
   Future<void> deleteTokens() async {
@@ -60,6 +60,6 @@ class Prefs {
     prefs.remove(_userIDStorageKey);
     prefs.remove(_authEnableStatusStorageKey);
     _authToken = "";
-    _authEnableStatus = false;
+    _authEnableStatus = "default";
   }
 }

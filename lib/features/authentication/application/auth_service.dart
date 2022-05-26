@@ -30,5 +30,5 @@ class AuthService extends BaseApi {
     );
   }
 
-  Future<bool> isAuthenabled() => Prefs().getAuthEnableStatus();
+  Future<String> isAuthenabled() => Prefs().getAuthEnableStatus();
 }
