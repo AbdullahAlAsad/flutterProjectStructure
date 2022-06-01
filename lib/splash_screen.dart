@@ -72,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future initData() async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration.zero);
   }
 
   @override
@@ -80,14 +80,14 @@ class _SplashScreenState extends State<SplashScreen> {
     return Center(
       child: Container(
         color: Colors.black,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Image.asset(
-              ImagePaths.splashLogo,
-            ),
-          ),
-        ),
+        // child: Center(
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(24.0),
+        //     child: Image.asset(
+        //       ImagePaths.splashLogo,
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

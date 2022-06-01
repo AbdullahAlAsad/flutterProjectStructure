@@ -18,35 +18,65 @@ class _PinLoginWidgetState extends State<PinLoginWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: Colors.black,
+            // color: Colors.black,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(ImagePaths.inputBkg), fit: BoxFit.cover)),
             child: Padding(
-              padding: const EdgeInsets.all(48.0),
-              child: Center(
-                child: _passwordInputField(),
-              ),
+              padding: EdgeInsets.zero,
+              child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(.85),
+                  ),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: Color(0xFF1E1E20),
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(24),
+                                  topRight: Radius.circular(24))),
+                          child: _passwordInputField()))),
             )));
   }
 
   TextField _passwordInputField() {
     return TextField(
-      autofocus: false,
+      autofocus: true,
       maxLength: 4,
       controller: _passwordController,
       onChanged: _changed,
       keyboardType: TextInputType.number,
-      scrollPadding: const EdgeInsets.only(bottom: 200),
+      scrollPadding: const EdgeInsets.only(bottom: 8),
       onEditingComplete: _onEditComplete,
       textInputAction: TextInputAction.done,
       textDirection: TextDirection.ltr,
+      keyboardAppearance: Brightness.dark,
       obscureText: true,
+      obscuringCharacter: '●',
+      textAlign: TextAlign.center,
+      showCursor: false,
       style: const TextStyle(
-          fontSize: 32, fontWeight: FontWeight.w400, color: Colors.red),
+          fontSize: 32, fontWeight: FontWeight.w400, color: Colors.white),
       decoration: InputDecoration(
-          hintText: StringConstants.enterAccountPin,
-          enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white)),
-          hintStyle: const TextStyle(
-              fontSize: 24, fontWeight: FontWeight.w400, color: Colors.grey)),
+          label: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  StringConstants.enterAccountPin,
+                ),
+              ],
+            ),
+          ),
+          labelStyle: TextStyle(
+              fontSize: 32, fontWeight: FontWeight.w400, color: Colors.white),
+          hintText: '● ● ● ●',
+          border: InputBorder.none,
+          hintStyle: TextStyle(
+              fontSize: 32, fontWeight: FontWeight.w400, color: Colors.grey)),
     );
   }
 

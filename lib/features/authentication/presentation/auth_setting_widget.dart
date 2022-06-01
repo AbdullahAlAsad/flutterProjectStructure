@@ -24,10 +24,27 @@ class _AuthSettingsScreenState extends State<AuthSettingsScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.black,
-        leading: BackButton(
-          color: Colors.white,
-          onPressed: _onBackPressed,
+        leading: GestureDetector(
+          onTap: _onBackPressed,
+          child: Padding(
+            padding: EdgeInsets.only(left: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  // onPressed: _onBackPressed,
+                ),
+                Text(
+                  'Back',
+                  style: TextStyle(color: Colors.white),
+                )
+              ],
+            ),
+          ),
         ),
+        leadingWidth: 128,
         actions: [
           TextButton(
               onPressed: _onPressedSkip,
@@ -44,6 +61,7 @@ class _AuthSettingsScreenState extends State<AuthSettingsScreen> {
 
   Widget _mainContent() {
     return Container(
+      padding: EdgeInsets.only(left: 32, right: 32),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [_pageTitle(), _enableButton()],
@@ -53,10 +71,15 @@ class _AuthSettingsScreenState extends State<AuthSettingsScreen> {
 
   Widget _pageTitle() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           StringConstants.setLoginTitle,
           style: TextStyle(color: Colors.white, fontSize: 24),
+        ),
+        SizedBox(
+          height: 24,
         ),
         Text(
           StringConstants.setLoginDesc,

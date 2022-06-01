@@ -1,6 +1,7 @@
 import 'package:finz/constants/static_cosntants.dart';
 import 'package:finz/features/authentication/application/auth_service.dart';
 import 'package:finz/features/authentication/presentation/device_security_widget.dart';
+import 'package:finz/features/authentication/presentation/enter_pin_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -70,7 +71,11 @@ class _FaceIdWidgetState extends State<FaceIdWidget> {
             Navigator.of(context).pushNamed(DeveiceSecurityWidget.routeName);
           }
         });
-      } else {}
+      } else {
+        Navigator.of(context).pushReplacementNamed(PinLoginWidget.routeName);
+      }
+    }).onError((error, stackTrace) {
+      Navigator.of(context).pushReplacementNamed(PinLoginWidget.routeName);
     });
   }
 
@@ -88,6 +93,7 @@ class _FaceIdWidgetState extends State<FaceIdWidget> {
       });
     } on PlatformException catch (e) {
       print(e);
+      Navigator.of(context).pushReplacementNamed(PinLoginWidget.routeName);
       setState(() {
         _isAuthenticating = false;
         _authorized = 'Error - ${e.message}';

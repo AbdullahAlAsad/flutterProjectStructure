@@ -22,6 +22,7 @@ class StringConstants {
 
 class ImagePaths {
   static String splashLogo = "images/logo4x.png";
+  static String inputBkg = "images/input_bkg.png";
 }
 
 class ColorConstants {

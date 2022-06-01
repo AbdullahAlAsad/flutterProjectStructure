@@ -35,41 +35,44 @@ class _DeveiceSecurityWidgetState extends State<DeveiceSecurityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        backgroundColor: Colors.black,
-        leading: BackButton(
-          color: Colors.white,
-          onPressed: _onBackPressed,
+    return WillPopScope(
+      onWillPop: _onPop,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          backgroundColor: Colors.black,
+          leading: Container(),
         ),
-      ),
-      body: Container(
-        color: Colors.black,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              StringConstants.deviceSecurity,
-              style: const TextStyle(color: Colors.white, fontSize: 24),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  softWrap: true,
-                  StringConstants.enableDevicePass,
-                  style: const TextStyle(color: Colors.grey, fontSize: 16),
+        body: Container(
+          color: Colors.black,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 24.0),
+                child: Text(
+                  StringConstants.deviceSecurity,
+                  style: const TextStyle(color: Colors.white, fontSize: 24),
                 ),
-                Switch(
-                  value: _deviceSecurityEnabled,
-                  onChanged: _onChanged,
-                  activeColor: ColorConstants.primary,
-                  inactiveTrackColor: Colors.grey,
-                )
-              ],
-            )
-          ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    softWrap: true,
+                    StringConstants.enableDevicePass,
+                    style: const TextStyle(color: Colors.grey, fontSize: 16),
+                  ),
+                  Switch(
+                    value: _deviceSecurityEnabled,
+                    onChanged: _onChanged,
+                    activeColor: ColorConstants.primary,
+                    inactiveTrackColor: Colors.grey,
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -91,5 +94,14 @@ class _DeveiceSecurityWidgetState extends State<DeveiceSecurityWidget> {
     } else {
       Navigator.of(context).pushReplacementNamed(PinLoginWidget.routeName);
     }
+  }
+
+  Future<bool> _onPop() async {
+    if (_deviceSecurityEnabled) {
+      Navigator.of(context).pushReplacementNamed(FaceIdWidget.routeName);
+    } else {
+      Navigator.of(context).pushReplacementNamed(PinLoginWidget.routeName);
+    }
+    return false;
   }
 }
